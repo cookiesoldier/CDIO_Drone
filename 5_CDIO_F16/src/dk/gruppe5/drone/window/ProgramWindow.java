@@ -1,9 +1,11 @@
-package dk.gruppe5.drone;
+package dk.gruppe5.drone.window;
 
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
+
+import dk.gruppe5.drone.Test;
 
 public class ProgramWindow {
 	
