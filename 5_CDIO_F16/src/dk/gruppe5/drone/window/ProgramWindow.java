@@ -3,33 +3,31 @@ package dk.gruppe5.drone.window;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
-import de.yadrone.base.ARDrone;
-import dk.gruppe5.drone.Test;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
+import dk.gruppe5.drone.Program;
 
-public class ProgramWindow {
+public class ProgramWindow /* extends JFrame */ {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -134624688539693311L;
+	public int w;
+	public int h;
+	
+	private VideoListener videoL; 
 	
 	public ProgramWindow(String title, int w, int h) {
+		JFrame frame = new JFrame(title);
+		Program prog = new Program(this);
+		videoL = prog.getDc().getVideol();
+		this.h = h;
+		this.w = w;
 		
-		Test test = new Test();
-		
-		//JFrame frame = new JFrame(title);
-		VideoListener frame = new VideoListener((ARDrone) test.drone);
-		NavDataListener nav = new NavDataListener((ARDrone) test.drone);
-		frame.setMaximumSize(new Dimension(w, h));
-		frame.setMinimumSize(new Dimension(w, h));
-		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
-		
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.NORTH);
+		frame.setMinimumSize(new Dimension(h, w));
+		frame.add(videoL);
 		frame.setVisible(true);
 		
-	}
+	} 
 
 }
-

@@ -8,7 +8,7 @@ public class Main {
 
 	
 	public static void main (String[] args) {
-		ProgramWindow prog = new ProgramWindow("thisguy", 800, 800);
+		ProgramWindow prog = new ProgramWindow("You better fly", 800, 800);
 	}
 
 	

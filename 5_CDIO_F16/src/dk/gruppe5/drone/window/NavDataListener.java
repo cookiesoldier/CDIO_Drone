@@ -25,7 +25,7 @@ public class NavDataListener {
 			
 			@Override
 			public void attitudeUpdated(float pitch, float roll, float yaw) {
-				System.out.println("Pitch: " + pitch + " Roll: " + roll + " Yaw: " + yaw);
+				//System.out.println("Pitch: " + pitch + " Roll: " + roll + " Yaw: " + yaw);
 			}
 			
 			@Override
@@ -44,7 +44,7 @@ public class NavDataListener {
 			
 			@Override
 			public void batteryLevelChanged(int percentage) {
-				System.out.println("Battery: " + percentage + " %");			
+				//System.out.println("Battery: " + percentage + " %");			
 			}
 			
 		});
