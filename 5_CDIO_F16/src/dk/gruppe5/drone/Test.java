@@ -8,15 +8,20 @@ import de.yadrone.base.command.CommandManager;
 
 public class Test extends Canvas {
 	
-	IARDrone ar;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -869265015784363288L;
+	
+	public IARDrone drone;
 	CommandManager cmd;
 	
 	public Test() {
 		
 		try {
-			ar = new ARDrone();
-			ar.start();
-			cmd = ar.getCommandManager();
+			drone = new ARDrone();
+			drone.start();
+			cmd = drone.getCommandManager();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -27,10 +32,7 @@ public class Test extends Canvas {
 			e.printStackTrace();
 		}
 		
-		takeOffAndLand(3000);
-		
-		
-		
+		takeOffAndLand(3000);	
 		
 	}
 	
