@@ -2,10 +2,16 @@ package openCV;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
@@ -75,5 +81,45 @@ public class ImageProcessor {
 	private Mat getKernelFromShape(int elementSize, int elementShape) {
 		return Imgproc.getStructuringElement(elementShape, new Size(elementSize*2+1, elementSize*2+1), new Point(elementSize, elementSize) );
 	}
+	
+	public BufferedImage toGrayScale(BufferedImage input){
+		
+		byte[] data = ((DataBufferByte) input.getRaster().getDataBuffer()).getData();
+        Mat mat = new Mat(input.getHeight(), input.getWidth(), CvType.CV_8UC3);
+        mat.put(0, 0, data);
+
+        Mat mat1 = new Mat(input.getHeight(),input.getWidth(),CvType.CV_8UC3);
+        Imgproc.cvtColor(mat, mat1, Imgproc.COLOR_RGB2GRAY);
+
+        byte[] data1 = new byte[mat1.rows() * mat1.cols() * (int)(mat1.elemSize())];
+        mat1.get(0, 0, data1);
+        BufferedImage image1 = new BufferedImage(mat1.cols(),mat1.rows(), BufferedImage.TYPE_BYTE_GRAY);
+        image1.getRaster().setDataElements(0, 0, mat1.cols(), mat1.rows(), data1);
+
+		
+		
+		return image1;
+		
+	}
+	
+	
+	
+
+	public BufferedImage toCanny(BufferedImage newImage) {
+		//First we grayscale the picture
+		Mat imageGray = new Mat();
+		Mat imageCny = new Mat();
+		Imgproc.cvtColor(bufferedImageToMat(newImage), imageGray, Imgproc.COLOR_BGR2GRAY);		
+		Imgproc.Canny(imageGray, imageCny, 10, 100, 3, true);
+		
+		
+		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();    
+		//Prøvet lidt forskellige settings, lader ikke til at gøre en forskel. så vi bruger disse settings.
+	    Imgproc.findContours(imageCny, contours, new Mat(), Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
+	    
+	  
+		return toBufferedImage(imageCny);
+	}
+	    
 
 }

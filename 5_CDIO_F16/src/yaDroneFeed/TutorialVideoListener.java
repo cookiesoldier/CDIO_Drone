@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+
 import de.yadrone.base.IARDrone;
 import de.yadrone.base.command.VideoChannel;
 import de.yadrone.base.video.ImageListener;
@@ -26,7 +27,13 @@ public class TutorialVideoListener extends JPanel {
 			public void imageUpdated(BufferedImage newImage) {
 				
 				
-				image = imgProc.toBufferedImage(imgProc.blur(imgProc.bufferedImageToMat(newImage), blurLevel));
+				//image = imgProc.toBufferedImage(imgProc.blur(imgProc.bufferedImageToMat(newImage), blurLevel));
+				//image = imgProc.toGrayScale(newImage);
+				
+				
+				
+				
+				image = imgProc.toCanny(newImage);
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						repaint();
