@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.opencv.core.Mat;
 
 import de.yadrone.base.IARDrone;
 import de.yadrone.base.command.VideoChannel;
@@ -16,9 +17,11 @@ import openCV.ImageProcessor;
 
 public class TutorialVideoListener extends JPanel {
 
-	private BufferedImage image = null;
+	private BufferedImage displayImage = null;
 	private int blurLevel = 0;
 	private ImageProcessor imgProc = new ImageProcessor();
+	private Mat frameOne = null;
+	private Mat frameTwo = null;
 
 	public TutorialVideoListener(final IARDrone drone) {
 
@@ -29,11 +32,23 @@ public class TutorialVideoListener extends JPanel {
 				
 				//image = imgProc.toBufferedImage(imgProc.blur(imgProc.bufferedImageToMat(newImage), blurLevel));
 				//image = imgProc.toGrayScale(newImage);
+				if(frameOne == null && frameTwo == null){
+					frameOne = imgProc.bufferedImageToMat(newImage);
+					frameTwo = frameOne;
+					
+				}
+				frameOne = imgProc.bufferedImageToMat(newImage);
+				frameOne = imgProc.toCanny(frameOne);
+				imgProc.toCanny(frameTwo);
+				frameOne = imgProc.opticalFlow(frameOne,frameTwo);
 				
 				
 				
+				//displayImage = imgProc.toCanny(newImage);
+				//displayImage = newImage;
 				
-				image = imgProc.toCanny(newImage);
+				displayImage = imgProc.toBufferedImage(frameOne);
+				
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						repaint();
@@ -51,13 +66,13 @@ public class TutorialVideoListener extends JPanel {
 	}
 
 	public synchronized void paint(Graphics g) {
-		if (image != null){
-			g.drawImage(image, 0, 0, image.getWidth(), image.getHeight(), null);
+		if (displayImage != null){
+			g.drawImage(displayImage, 0, 0, displayImage.getWidth(), displayImage.getHeight(), null);
 		}
 	}
 
 	public BufferedImage getImage() {
-		return image;
+		return displayImage;
 	}
 
 	public void setBlurLevel(int blurLevel) {

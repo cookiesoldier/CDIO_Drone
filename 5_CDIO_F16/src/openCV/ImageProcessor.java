@@ -105,20 +105,20 @@ public class ImageProcessor {
 	
 	
 
-	public BufferedImage toCanny(BufferedImage newImage) {
+	public Mat toCanny(Mat img) {
 		//First we grayscale the picture
 		Mat imageGray = new Mat();
 		Mat imageCny = new Mat();
-		Imgproc.cvtColor(bufferedImageToMat(newImage), imageGray, Imgproc.COLOR_BGR2GRAY);		
+		Imgproc.cvtColor(img, imageGray, Imgproc.COLOR_BGR2GRAY);		
 		Imgproc.Canny(imageGray, imageCny, 10, 100, 3, true);
-		
-		
-		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();    
-		//Prøvet lidt forskellige settings, lader ikke til at gøre en forskel. så vi bruger disse settings.
-	    Imgproc.findContours(imageCny, contours, new Mat(), Imgproc.RETR_LIST,Imgproc.CHAIN_APPROX_SIMPLE);
+
 	    
-	  
-		return toBufferedImage(imageCny);
+		return imageCny;
+	}
+
+	public Mat opticalFlow(Mat frameOne, Mat frameTwo) {
+		// TODO Auto-generated method stub
+		return frameOne;
 	}
 	    
 
